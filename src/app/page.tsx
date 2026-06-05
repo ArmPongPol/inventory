@@ -183,7 +183,7 @@ export default function DashboardPage() {
     <PageShell>
       <PageHeader
         eyebrow="overview"
-        title="Good afternoon, Pongpol."
+        title="Good afternoon."
         description="A bright summary of the shop today — what's in stock, what moved, and what needs your attention."
         accent="brand"
       />

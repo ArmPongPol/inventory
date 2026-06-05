@@ -118,8 +118,9 @@ export default function ProductsPage() {
   };
 
   const submit = async () => {
-    if (!form.name.trim() || !form.salePrice) {
-      toast.show("Name and sale price are required.", "error");
+    const salePriceNum = Number(form.salePrice);
+    if (!form.name.trim() || !form.salePrice || isNaN(salePriceNum) || salePriceNum <= 0) {
+      toast.show("Name and a valid sale price (> 0) are required.", "error");
       return;
     }
     setSaving(true);

@@ -4,6 +4,7 @@ import "./globals.css";
 import { Sidebar } from "@/components/sidebar";
 import { TopBar } from "@/components/top-bar";
 import { ToastProvider } from "@/components/toast";
+import { ErrorBoundary } from "@/components/error-boundary";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,7 +37,9 @@ export default function RootLayout({
             <Sidebar />
             <div className="flex flex-1 flex-col min-w-0">
               <TopBar />
-              <main className="flex-1 min-w-0 animate-fade-in">{children}</main>
+              <main className="flex-1 min-w-0 animate-fade-in">
+                <ErrorBoundary>{children}</ErrorBoundary>
+              </main>
             </div>
           </div>
         </ToastProvider>

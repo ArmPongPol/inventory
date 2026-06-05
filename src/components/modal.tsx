@@ -52,6 +52,9 @@ export function Modal({
         >
           <motion.div
             key="panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
             initial={{ opacity: 0, y: 12, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.98 }}
@@ -64,7 +67,7 @@ export function Modal({
 
             <div className="flex items-start justify-between gap-6 border-b border-border-soft px-7 pt-6 pb-5">
               <div>
-                <h2 className="text-[19px] font-semibold leading-tight tracking-tight text-ink">
+                <h2 id="modal-title" className="text-[19px] font-semibold leading-tight tracking-tight text-ink">
                   {title}
                 </h2>
                 {description && (

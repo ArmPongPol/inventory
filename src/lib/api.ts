@@ -1,7 +1,13 @@
 import type { ApiResponse } from "./types";
 
+if (process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_API_URL) {
+  console.error(
+    "[api] NEXT_PUBLIC_API_URL is not set — API requests will fail in production",
+  );
+}
+
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "http://localhost:3000";
+  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "http://localhost:3001";
 
 export class ApiClientError extends Error {
   status: number;
@@ -33,7 +39,12 @@ async function request<T>(
   if (res.status === 204) return undefined as T;
 
   const text = await res.text();
-  const payload = text ? (JSON.parse(text) as ApiResponse<T> | unknown) : null;
+  let payload: ApiResponse<T> | unknown = null;
+  try {
+    payload = text ? (JSON.parse(text) as ApiResponse<T> | unknown) : null;
+  } catch {
+    throw new ApiClientError("Invalid response from server", res.status, text);
+  }
 
   if (!res.ok) {
     const message =
