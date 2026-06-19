@@ -11,7 +11,11 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { CheckIcon, CloseIcon } from "@/components/icons";
 
-type Toast = { id: number; message: string; tone: "info" | "error" | "success" };
+type Toast = {
+  id: number;
+  message: string;
+  tone: "info" | "error" | "success";
+};
 
 type ToastCtx = {
   show: (message: string, tone?: Toast["tone"]) => void;
@@ -22,13 +26,16 @@ const Ctx = createContext<ToastCtx | null>(null);
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
-  const show = useCallback((message: string, tone: Toast["tone"] = "success") => {
-    const id = Date.now() + Math.random();
-    setToasts((t) => [...t, { id, message, tone }]);
-    setTimeout(() => {
-      setToasts((t) => t.filter((x) => x.id !== id));
-    }, 3500);
-  }, []);
+  const show = useCallback(
+    (message: string, tone: Toast["tone"] = "success") => {
+      const id = Date.now() + Math.random();
+      setToasts((t) => [...t, { id, message, tone }]);
+      setTimeout(() => {
+        setToasts((t) => t.filter((x) => x.id !== id));
+      }, 3500);
+    },
+    [],
+  );
 
   return (
     <Ctx.Provider value={{ show }}>
@@ -38,10 +45,18 @@ export function ToastProvider({ children }: { children: ReactNode }) {
           {toasts.map((t) => {
             const accent =
               t.tone === "error"
-                ? { ring: "border-danger/30", icon: "bg-danger", dot: "text-danger" }
+                ? {
+                    ring: "border-danger/30",
+                    icon: "bg-danger",
+                    dot: "text-danger",
+                  }
                 : t.tone === "info"
                   ? { ring: "border-sky/30", icon: "bg-sky", dot: "text-sky" }
-                  : { ring: "border-emerald/30", icon: "bg-emerald", dot: "text-emerald" };
+                  : {
+                      ring: "border-emerald/30",
+                      icon: "bg-emerald",
+                      dot: "text-emerald",
+                    };
             return (
               <motion.div
                 key={t.id}

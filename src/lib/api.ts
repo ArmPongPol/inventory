@@ -7,7 +7,8 @@ if (process.env.NODE_ENV === "production" && !process.env.NEXT_PUBLIC_API_URL) {
 }
 
 const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ?? "http://localhost:3001";
+  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") ??
+  "http://localhost:3001";
 
 export class ApiClientError extends Error {
   status: number;
@@ -70,6 +71,5 @@ export const api = {
     request<T>(path, { method: "POST", json }),
   patch: <T>(path: string, json?: unknown) =>
     request<T>(path, { method: "PATCH", json }),
-  delete: <T = void>(path: string) =>
-    request<T>(path, { method: "DELETE" }),
+  delete: <T = void>(path: string) => request<T>(path, { method: "DELETE" }),
 };
